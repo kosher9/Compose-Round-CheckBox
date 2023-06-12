@@ -65,7 +65,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             enabled = true,
             colors = CheckboxDefaults.colors()
         )
-        RadioButton(selected = false, onClick = { radioButtonState = !radioButtonState })
+        RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
+
+        NiceCheckBox( isChecked = false, onClick = { /*TODO*/ })
     }
 }
 

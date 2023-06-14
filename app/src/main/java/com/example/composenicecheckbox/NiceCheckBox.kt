@@ -1,109 +1,92 @@
 package com.example.composenicecheckbox
 
-import android.graphics.Paint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.NativeCanvas
-import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.DrawStyle
-import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.vector.VectorProperty
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun NiceCheckBox(
     isChecked: Boolean,
     onClick: (() -> Unit),
     modifier: Modifier = Modifier,
-    enable: Boolean = true,
+    enabled: Boolean = true,
     color: NiceCheckBoxColors = NiceCheckBoxDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
 
-    Canvas(Modifier
-        // Provide a slight opacity to for compositing into an
-        // offscreen buffer to ensure blend modes are applied to empty pixel information
-        // By default any alpha != 1.0f will use a compositing layer by default
-        .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-    ) {
-        drawCircle(
-            color = Color.Red,
-            center = Offset(0f, 0f),
-            radius = 40f,
-            blendMode = BlendMode.Xor
-        )
-
-        drawCircle(
-            color = Color.Blue,
-            center = Offset(0f, 0f),
-            radius = 20f,
-            blendMode = BlendMode.Xor
-        )
-    }
-
-}
-
-//private fun DrawScope.drawBounds(){
-//    drawCircle(
-//        color = Color.Black,
-//        style = Stroke(2f),
-//        radius = 40f
-//    )
-//}
-
-//private fun DrawScope.drawBackground(){
-////    val paint = Paint().apply {
-////        isAntiAlias = true
-////        color = android.graphics.Color.BLUE
-////    }
-////    drawCircle(
-////        0f,
-////        0f,
-////        40f,
-////        paint
-////    )
-//
-//    drawCircle(
-//        color = Color.Blue,
-//        style = Fill,
-//        radius = 40f,
-//    )
-//}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-private fun DrawScope.drawMask(){
-    val paint = Paint().apply {
-        isAntiAlias = true
-        color = android.graphics.Color.GREEN
-        blendMode = android.graphics.BlendMode.CLEAR
-    }
-    drawCircle(
-        color = Color.Green,
-        style = Fill,
-        radius = 20f,
-        blendMode = BlendMode.DstOut
+    val circleRadius = animateDpAsState(
+        targetValue = 0.dp,
+        animationSpec = tween(durationMillis = 1000), label = ""
     )
+
+    val checkBoxColor = color.niceCheckColors(enabled = enabled, isChecked = isChecked)
+
+//    LaunchedEffect(circleRadius) {
+//        circleRadius = MAX_RADIUS as State<Dp>
+//    }
+
+    Canvas(Modifier
+        .wrapContentSize(Alignment.Center)
+        .padding(BOX_PADDING)
+        .requiredSize(REQUIRED_SIZE)
+    ) {
+
+
+        with(drawContext.canvas.nativeCanvas) {
+            val count = saveLayer(null, null)
+
+            drawCircle(
+                color = Color.DarkGray,
+                radius = MAX_RADIUS.toPx(),
+                style = Stroke(
+                    width = BOX_STROKE_WIDTH.toPx(),
+                ),
+            )
+
+//          Destination
+            drawCircle(
+                color = Color.Red,
+                radius = MAX_RADIUS.toPx() - BOX_STROKE_WIDTH.toPx() / 2,
+            )
+
+//            Source
+            drawCircle(
+                color = BOX_MASK_COLOR,
+                radius = circleRadius.value.toPx(),
+                blendMode = BlendMode.Clear,
+            )
+
+            restoreToCount(count)
+        }
+    }
+
 }
 
 object NiceCheckBoxDefaults{
@@ -139,7 +122,7 @@ class NiceCheckBoxColors internal constructor(
         }
 
         return if (enabled){
-            animateColorAsState(target, tween(RadioAnimationDuration), label = "NiceCheckBox")
+            animateColorAsState(target, tween(BOX_ANIMATION_DURATION), label = "NiceCheckBox")
         } else{
             rememberUpdatedState(target)
         }
@@ -168,4 +151,10 @@ class NiceCheckBoxColors internal constructor(
 
 }
 
-private const val RadioAnimationDuration = 100
+private const val BOX_ANIMATION_DURATION = 1000
+private val BOX_MASK_COLOR = Color.Gray
+private val BOX_STROKE_WIDTH = 3.dp
+//private const val BACKGROUND_CIRCLE_RADIUS = 40f
+private val MAX_RADIUS = 10.dp
+private val BOX_PADDING = 2.dp
+private val REQUIRED_SIZE = 30.dp

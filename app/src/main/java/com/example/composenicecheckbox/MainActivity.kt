@@ -1,8 +1,10 @@
 package com.example.composenicecheckbox
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.composenicecheckbox.ui.theme.ComposeNiceCheckBoxTheme
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -59,12 +62,12 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             text = "Hello $name!",
             modifier = modifier
         )
-        Checkbox(
-            checked = checkBoxState,
-            onCheckedChange = { checkBoxState = !checkBoxState },
-            enabled = true,
-            colors = CheckboxDefaults.colors()
-        )
+//        Checkbox(
+//            checked = checkBoxState,
+//            onCheckedChange = { checkBoxState = !checkBoxState },
+//            enabled = true,
+//            colors = CheckboxDefaults.colors(),
+//        )
         RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
 
         NiceCheckBox( isChecked = false, onClick = { /*TODO*/ })

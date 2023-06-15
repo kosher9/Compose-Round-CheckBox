@@ -1,5 +1,8 @@
 package com.example.composenicecheckbox
 
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -26,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color as CColor
 import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
@@ -78,7 +81,7 @@ fun NiceCheckBox(
             val count = saveLayer(null, null)
 
             drawCircle(
-                color = Color.DarkGray,
+                color = CColor.DarkGray,
                 radius = MAX_RADIUS.toPx(),
                 style = Stroke(
                     width = BOX_STROKE_WIDTH.toPx(),
@@ -87,7 +90,7 @@ fun NiceCheckBox(
 
 //          Destination
             drawCircle(
-                color = Color.Red,
+                color = CColor.Red,
                 radius = MAX_RADIUS.toPx() - BOX_STROKE_WIDTH.toPx() / 2,
             )
 
@@ -96,6 +99,18 @@ fun NiceCheckBox(
                 color = BOX_MASK_COLOR,
                 radius = circleRadius.value.toPx(),
                 blendMode = BlendMode.Clear,
+            )
+
+            val path = Path()
+            path.moveTo(center.x / 2, center.y)
+            path.lineTo(center.x - center.x / 4, center.y + center.y / 4)
+            path.lineTo(center.x + center.x * 3 / 8, center.y * 6 / 8)
+
+            drawPath(
+                path,
+                Paint().apply {
+                    this.color = Color.parseColor("#4CAF50")
+                }
             )
 
             restoreToCount(count)
@@ -107,10 +122,10 @@ fun NiceCheckBox(
 object NiceCheckBoxDefaults{
     @Composable
     fun colors(
-        selectedColor: Color = MaterialTheme.colorScheme.onPrimary,
-        unselectedColor: Color = MaterialTheme.colorScheme.onPrimary,
-        disabledSelectedColor: Color = MaterialTheme.colorScheme.onPrimary,
-        disabledUnselectedColor: Color = MaterialTheme.colorScheme.onPrimary,
+        selectedColor: CColor = MaterialTheme.colorScheme.onPrimary,
+        unselectedColor: CColor = MaterialTheme.colorScheme.onPrimary,
+        disabledSelectedColor: CColor = MaterialTheme.colorScheme.onPrimary,
+        disabledUnselectedColor: CColor = MaterialTheme.colorScheme.onPrimary,
     ): NiceCheckBoxColors = NiceCheckBoxColors(
         selectedColor,
         unselectedColor,
@@ -121,14 +136,14 @@ object NiceCheckBoxDefaults{
 
 @Immutable
 class NiceCheckBoxColors internal constructor(
-    private val selectedColor: Color,
-    private val unselectedColor: Color,
-    private val disabledSelectedColor: Color,
-    private val disabledUnselectedColor: Color
+    private val selectedColor: CColor,
+    private val unselectedColor: CColor,
+    private val disabledSelectedColor: CColor,
+    private val disabledUnselectedColor: CColor
 ){
 
     @Composable
-    internal fun niceCheckColors(enabled: Boolean, isChecked: Boolean): State<Color> {
+    internal fun niceCheckColors(enabled: Boolean, isChecked: Boolean): State<CColor> {
         val target = when {
             enabled && isChecked -> selectedColor
             enabled && !isChecked -> unselectedColor
@@ -167,7 +182,7 @@ class NiceCheckBoxColors internal constructor(
 }
 
 private const val BOX_ANIMATION_DURATION = 1000
-private val BOX_MASK_COLOR = Color.Gray
+private val BOX_MASK_COLOR = CColor.Gray
 private val BOX_STROKE_WIDTH = 3.dp
 //private const val BACKGROUND_CIRCLE_RADIUS = 40f
 private val MAX_RADIUS = 10.dp

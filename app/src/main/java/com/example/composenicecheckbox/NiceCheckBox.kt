@@ -5,10 +5,13 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -28,13 +31,14 @@ import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.vector.VectorProperty
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun NiceCheckBox(
     isChecked: Boolean,
-    onClick: (() -> Unit),
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     color: NiceCheckBoxColors = NiceCheckBoxDefaults.colors(),
@@ -43,19 +47,30 @@ fun NiceCheckBox(
 
     val circleRadius = animateDpAsState(
         targetValue = 0.dp,
-        animationSpec = tween(durationMillis = 1000), label = ""
+        animationSpec = tween(durationMillis = 1000), label = "checkbox animation"
     )
 
     val checkBoxColor = color.niceCheckColors(enabled = enabled, isChecked = isChecked)
+    val selectableModifier = if (onClick != null){
+        Modifier.selectable(
+            selected = isChecked,
+            enabled = enabled,
+            role = Role.Checkbox,
+            onClick = onClick,
+            interactionSource = interactionSource,
+            indication = rememberRipple()
+        )
+    } else {
+        Modifier
+    }
 
-//    LaunchedEffect(circleRadius) {
-//        circleRadius = MAX_RADIUS as State<Dp>
-//    }
 
-    Canvas(Modifier
-        .wrapContentSize(Alignment.Center)
-        .padding(BOX_PADDING)
-        .requiredSize(REQUIRED_SIZE)
+    Canvas(
+        Modifier
+            .then(selectableModifier)
+            .wrapContentSize(Alignment.Center)
+            .padding(BOX_PADDING)
+            .requiredSize(REQUIRED_SIZE)
     ) {
 
 

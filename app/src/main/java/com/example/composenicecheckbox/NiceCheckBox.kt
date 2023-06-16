@@ -4,11 +4,9 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
@@ -18,24 +16,16 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color as CColor
-import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.vector.VectorProperty
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -52,6 +42,13 @@ fun NiceCheckBox(
         targetValue = 0.dp,
         animationSpec = tween(durationMillis = 1000), label = "checkbox animation"
     )
+
+    val tickPaint = Paint().apply {
+        this.color = Color.parseColor("#ffffff")
+        this.strokeCap = Paint.Cap.ROUND
+        this.strokeWidth = 5f
+        this.style = Paint.Style.STROKE
+    }
 
     val checkBoxColor = color.niceCheckColors(enabled = enabled, isChecked = isChecked)
     val selectableModifier = if (onClick != null){
@@ -104,17 +101,19 @@ fun NiceCheckBox(
             val path = Path()
             path.moveTo(center.x / 2, center.y)
             path.lineTo(center.x - center.x / 4, center.y + center.y / 4)
-            path.lineTo(center.x + center.x * 3 / 8, center.y * 6 / 8)
-
             drawPath(
                 path,
-                Paint().apply {
-                    this.color = Color.parseColor("#4CAF50")
-                    this.strokeCap = Paint.Cap.ROUND
-                    this.strokeWidth = 1.5.dp.toPx()
-                    this.style = Paint.Style.STROKE
-                }
+                tickPaint
             )
+            path.reset()
+
+            path.moveTo(center.x - center.x / 4, center.y + center.y / 4)
+            path.lineTo(center.x + center.x * 3 / 8, center.y * 6 / 8)
+            drawPath(
+                path,
+                tickPaint
+            )
+            path.reset()
 
             restoreToCount(count)
         }

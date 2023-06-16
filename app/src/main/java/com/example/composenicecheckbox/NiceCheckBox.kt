@@ -110,6 +110,9 @@ fun NiceCheckBox(
                 path,
                 Paint().apply {
                     this.color = Color.parseColor("#4CAF50")
+                    this.strokeCap = Paint.Cap.ROUND
+                    this.strokeWidth = 1.5.dp.toPx()
+                    this.style = Paint.Style.STROKE
                 }
             )
 

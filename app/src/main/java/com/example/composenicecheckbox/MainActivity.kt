@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composenicecheckbox.ui.theme.ComposeNiceCheckBoxTheme
@@ -50,6 +55,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
     var checkBoxState by remember { mutableStateOf(false) }
     var radioButtonState by remember { mutableStateOf(false) }
+    var niceCheckBoxState by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -58,6 +64,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         Text(
             text = "Hello $name!",
             modifier = modifier
@@ -70,7 +77,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 //        )
         RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
 
-        NiceCheckBox( isChecked = false, onClick = { /*TODO*/ })
+        NiceCheckBox( isChecked = niceCheckBoxState, onClick = { niceCheckBoxState = !niceCheckBoxState })
     }
 }
 

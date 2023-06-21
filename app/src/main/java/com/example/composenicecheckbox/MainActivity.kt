@@ -7,12 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -24,10 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composenicecheckbox.ui.theme.ComposeNiceCheckBoxTheme
@@ -53,7 +46,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
 
-    var checkBoxState by remember { mutableStateOf(false) }
     var radioButtonState by remember { mutableStateOf(false) }
     var niceCheckBoxState by remember { mutableStateOf(false) }
 
@@ -69,15 +61,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             text = "Hello $name!",
             modifier = modifier
         )
-//        Checkbox(
-//            checked = checkBoxState,
-//            onCheckedChange = { checkBoxState = !checkBoxState },
-//            enabled = true,
-//            colors = CheckboxDefaults.colors(),
-//        )
+
         RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
 
-        NiceCheckBox( isChecked = true, onClick = { niceCheckBoxState = !niceCheckBoxState }, enabled = false)
+        NiceCheckBox( isChecked = niceCheckBoxState, onClick = { niceCheckBoxState = !niceCheckBoxState }, enabled = true)
     }
 }
 

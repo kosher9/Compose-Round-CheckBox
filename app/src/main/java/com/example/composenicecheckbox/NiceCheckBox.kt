@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
@@ -45,12 +46,13 @@ fun NiceCheckBox(
     )
 
     val tickPaint = Paint().apply {
-        this.color = Color.White
+        this.color = color.niceCheckBoxTickColor().value
         this.strokeCap = StrokeCap.Round
         this.strokeWidth = 10f
     }
 
-    val checkBoxColor = color.niceCheckColors(enabled = enabled, isChecked = isChecked)
+    val checkBoxColor = color.niceCheckBoxColors(enabled = enabled, isChecked = isChecked)
+    val checkBoxBorderColor = color.niceCheckBoxBorderColor().value
 
     val selectableModifier = if (onClick != null){
         Modifier.selectable(
@@ -80,7 +82,7 @@ fun NiceCheckBox(
             val count = saveLayer(null, null)
 
             drawCircle(
-                color = boxBorderColor,
+                color = checkBoxBorderColor,
                 radius = maxRadius.toPx(),
                 style = Stroke(
                     width = boxStrokeWidth.toPx(),
@@ -124,11 +126,15 @@ object NiceCheckBoxDefaults{
     fun colors(
         selectedColor: Color = Color(36, 199, 31),
         disabledSelectedColor: Color = Color(220, 219, 220),
-        disabledUnselectedColor: Color = Color.White,
+        disabledUnselectedColor: Color = Color.Transparent,
+        tickColor: Color = Color.Red,
+        borderColor: Color = Color(53, 61, 53)
     ): NiceCheckBoxColors = NiceCheckBoxColors(
         selectedColor,
         disabledSelectedColor,
-        disabledUnselectedColor
+        disabledUnselectedColor,
+        tickColor,
+        borderColor
     )
 }
 
@@ -136,20 +142,29 @@ object NiceCheckBoxDefaults{
 class NiceCheckBoxColors internal constructor(
     private val selectedColor: Color,
     private val disabledSelectedColor: Color,
-    private val disabledUnselectedColor: Color
+    private val disabledUnselectedColor: Color,
+    private val tickColor: Color,
+    private val borderColor: Color
 ){
-
     @Composable
-    internal fun niceCheckColors(enabled: Boolean, isChecked: Boolean): State<Color> {
+    internal fun niceCheckBoxColors(enabled: Boolean, isChecked: Boolean): State<Color> {
         val target = when {
             enabled && isChecked -> selectedColor
             enabled && !isChecked -> selectedColor
             !enabled && isChecked -> disabledSelectedColor
             else -> disabledUnselectedColor
         }
-
         return rememberUpdatedState(target)
+    }
 
+    @Composable
+    internal fun niceCheckBoxTickColor(): State<Color> {
+        return remember{ mutableStateOf(tickColor) }
+    }
+
+    @Composable
+    internal fun niceCheckBoxBorderColor(): State<Color> {
+        return remember{ mutableStateOf(borderColor) }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -172,7 +187,6 @@ class NiceCheckBoxColors internal constructor(
 
 }
 
-private val boxBorderColor = Color(53, 61, 53)
 private val boxStrokeWidth = 2.dp
 private val maxRadius = 10.dp
 private val boxPadding = 2.dp

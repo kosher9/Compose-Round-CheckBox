@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -64,7 +65,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
         RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
 
-        NiceCheckBox( isChecked = niceCheckBoxState, onClick = { niceCheckBoxState = !niceCheckBoxState }, enabled = true)
+        NiceCheckBox(modifier = Modifier.width(60.dp), isChecked = true, onClick = { niceCheckBoxState = !niceCheckBoxState }, enabled = false)
     }
 }
 

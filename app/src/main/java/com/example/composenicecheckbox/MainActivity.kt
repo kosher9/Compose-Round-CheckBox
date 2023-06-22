@@ -65,7 +65,13 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
         RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
 
-        NiceCheckBox(modifier = Modifier.width(60.dp), isChecked = true, onClick = { niceCheckBoxState = !niceCheckBoxState }, enabled = false)
+        NiceCheckBox(
+            modifier = Modifier.width(60.dp),
+            radius = 10.dp,
+            isChecked = niceCheckBoxState,
+            onClick = { niceCheckBoxState = !niceCheckBoxState },
+            enabled = true
+        )
     }
 }
 

@@ -66,7 +66,8 @@ fun NiceCheckBox(
             onClick = onClick,
             interactionSource = interactionSource,
             indication = rememberRipple(
-                bounded = false
+                bounded = false,
+                radius = radius * 2
             )
         )
     } else {

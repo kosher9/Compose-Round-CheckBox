@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -35,13 +36,16 @@ fun NiceCheckBox(
     isChecked: Boolean,
     onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    borderWidth: Dp = boxStrokeWidth,
+    radius: Dp = maxRadius,
+    tickWidth: Float = TICK_STROKE_WIDTH,
     enabled: Boolean = true,
     color: NiceCheckBoxColors = NiceCheckBoxDefaults.colors(),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
 
     val circleRadius by animateDpAsState(
-        targetValue = if (isChecked) 0.dp else maxRadius  - boxStrokeWidth / 2,
+        targetValue = if (isChecked) 0.dp else radius  - borderWidth / 2,
         animationSpec = tween(durationMillis = 200, easing = LinearEasing), label = "checkbox animation"
     )
 
@@ -83,16 +87,16 @@ fun NiceCheckBox(
 
             drawCircle(
                 color = checkBoxBorderColor,
-                radius = maxRadius.toPx(),
+                radius = radius.toPx(),
                 style = Stroke(
-                    width = boxStrokeWidth.toPx(),
+                    width = borderWidth.toPx(),
                 ),
             )
 
 //          Destination
             drawCircle(
                 color = checkBoxColor.value,
-                radius = maxRadius.toPx() - boxStrokeWidth.toPx() / 2,
+                radius = radius.toPx() - borderWidth.toPx() / 2,
                 style = Fill
             )
 
@@ -103,7 +107,7 @@ fun NiceCheckBox(
             drawPath(
                 path,
                 tickPaint.color,
-                style = Stroke(5f)
+                style = Stroke(tickWidth)
             )
             path.reset()
 
@@ -127,7 +131,7 @@ object NiceCheckBoxDefaults{
         selectedColor: Color = Color(36, 199, 31),
         disabledSelectedColor: Color = Color(220, 219, 220),
         disabledUnselectedColor: Color = Color.Transparent,
-        tickColor: Color = Color.Red,
+        tickColor: Color = Color.White,
         borderColor: Color = Color(53, 61, 53)
     ): NiceCheckBoxColors = NiceCheckBoxColors(
         selectedColor,
@@ -188,6 +192,7 @@ class NiceCheckBoxColors internal constructor(
 }
 
 private val boxStrokeWidth = 2.dp
+private const val TICK_STROKE_WIDTH = 5f
 private val maxRadius = 10.dp
 private val boxPadding = 2.dp
 private val requiredSize = 30.dp

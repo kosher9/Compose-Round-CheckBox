@@ -1,4 +1,4 @@
-package com.example.composenicecheckbox.ui.theme
+package com.kosher9.app.ui.theme
 
 import android.app.Activity
 import android.os.Build

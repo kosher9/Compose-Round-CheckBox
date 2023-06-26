@@ -13,9 +13,8 @@
         android:theme="@style/Theme.ComposeNiceCheckBox"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.kosher9.app.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.ComposeNiceCheckBox">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

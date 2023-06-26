@@ -18,8 +18,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.assertIsNotSelected
-import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
@@ -58,7 +58,7 @@ class NiceCheckBoxTest {
             }
         }
         composeTestRule.onNodeWithContentDescription("checkbox").assertIsNotEnabled()
-        composeTestRule.onNodeWithContentDescription("checkbox").assertIsNotSelected()
+        composeTestRule.onNodeWithContentDescription("checkbox").assertIsOff()
         composeTestRule.onNodeWithContentDescription("checkbox").assertHasClickAction()
     }
 
@@ -90,7 +90,7 @@ class NiceCheckBoxTest {
         }
         composeTestRule.onNodeWithContentDescription("checkbox").assertIsEnabled()
         composeTestRule.onNodeWithContentDescription("checkbox").performClick()
-        composeTestRule.onNodeWithContentDescription("checkbox").assertIsSelected()
+        composeTestRule.onNodeWithContentDescription("checkbox").assertIsOn()
         composeTestRule.onNodeWithContentDescription("checkbox").assertHasClickAction()
     }
 }

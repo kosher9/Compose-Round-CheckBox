@@ -63,6 +63,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             text = "Hello $name!",
             modifier = modifier
         )
+//        Checkbox(checked = , onCheckedChange = )
 
         RadioButton(selected = radioButtonState, onClick = { radioButtonState = !radioButtonState })
 

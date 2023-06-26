@@ -33,16 +33,29 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Round Checkbox
- * @param isChecked
- * @param onClick
- * @param modifier
- * @param borderWidth
- * @param radius
- * @param tickWidth
- * @param enabled
- * @param color
- * @param interactionSource
+ * RoundCheckboxes allow users to select one or more
+ * items from a set. RoundCheckboxes can turn an option on or off.
+ *
+ *
+ * @param isChecked whether the checkbox is checked or unchecked.
+ * @param onClick called when this rounded checkbox is clicked. If null,
+ * then this rounded checkbox will not be interactable, unless something
+ * else handles its input events and updates its state.
+ * @param modifier the Modifier to be applied to this radio button
+ * @param borderWidth the width of the circle border.
+ * @param radius the radius of the circle.
+ * @param tickWidth the width of the tick.
+ * @param enabled controls the enabled state of this rounded checkbox.
+ * When false, this component will not respond to user input,
+ * and it will appear visually disabled and disabled to accessibility
+ * services.
+ * @param color [RoundCheckBoxColors] that will be used to resolve
+ * the colors used for this rounded checkbox in different states
+ * @param interactionSource he MutableInteractionSource representing
+ * the stream of Interactions for this rounded checkbox. You can create
+ * and pass in your own remembered instance to observe Interactions
+ * and customize the appearance / behavior of this rounded checkbox in
+ * different states.
  */
 @Composable
 fun RoundCheckBox(

@@ -57,16 +57,16 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
-//publishing {
-//    publications {
-//        register<MavenPublication>("release") {
-//            groupId = "com.github.kosher9"
-//            artifactId = "Compose-Round-CheckBox"
-//            version = "0.1.1"
-//
-//            afterEvaluate {
-//                from(components["release"])
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.kosher9"
+            artifactId = "Compose-Round-CheckBox"
+            version = "0.1.2"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+}

@@ -41,7 +41,7 @@ RoundCheckBox(
             )
 ```
 
-Check out the [example](https://github.com/kosher9/Compose-Round-CheckBox/blob/main/app/src/main/java/com/kosher9/app/MainActivity.kt)
+Check out more examples [here](https://github.com/kosher9/Compose-Round-CheckBox/blob/main/app/src/main/java/com/kosher9/app/MainActivity.kt)
 
 ## 📝 License
 

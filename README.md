@@ -30,6 +30,19 @@ dependencies {
 }
 ```
 
+To use the Compose-Round-CheckBox in your Composable, here is a quick example:
+```
+var roundCheckBoxState by remember { mutableStateOf(false) }
+RoundCheckBox(
+                modifier = Modifier.width(60.dp),
+                isChecked = roundCheckBoxState,
+                onClick = { roundCheckBoxState = !roundCheckBoxState },
+                enabled = true
+            )
+```
+
+Check out the [example](https://github.com/kosher9/Compose-Round-CheckBox/blob/main/app/src/main/java/com/kosher9/app/MainActivity.kt)
+
 ## 📝 License
 
 This project is [MIT](./LICENSE.md) licensed.

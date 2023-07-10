@@ -30,7 +30,7 @@ dependencies {
 }
 ```
 
-To use the Compose-Round-CheckBox in your Composable, here is a quick example:
+To use the Compose-Round-CheckBox inside your Composable, here is a quick example:
 ```
 var roundCheckBoxState by remember { mutableStateOf(false) }
 RoundCheckBox(

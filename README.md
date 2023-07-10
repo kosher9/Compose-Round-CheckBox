@@ -2,6 +2,7 @@
 [![](https://jitpack.io/v/kosher9/Compose-Round-CheckBox.svg)](https://jitpack.io/#kosher9/Compose-Round-CheckBox)
 
 RoundCheckboxes allow users to select one or more items from a set. RoundCheckboxes can turn an option on or off.
+It has a great and smooth animation that can make your app have a better look. :)
 
 ## Preview
 https://github.com/kosher9/Compose-Round-CheckBox/assets/34873327/dee17090-e20a-4309-9595-2b16f9028206

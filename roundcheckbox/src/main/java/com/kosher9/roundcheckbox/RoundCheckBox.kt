@@ -72,7 +72,11 @@ fun RoundCheckBox(
 
     val circleRadius by animateDpAsState(
         targetValue = if (isChecked) 0.dp else radius  - borderWidth / 2,
-        animationSpec = tween(durationMillis = 200, easing = LinearEasing), label = "checkbox animation"
+        animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing), label = "checkbox animation"
+    )
+    val greenCircleRadius by animateDpAsState(
+        targetValue = if (isChecked) radius+1.dp else radius  - borderWidth / 2,
+        animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing), label = "checkbox animation"
     )
 
     val tickPaint = Paint().apply {
@@ -109,39 +113,39 @@ fun RoundCheckBox(
             .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
     ) {
 
-            drawCircle(
-                color = checkBoxBorderColor,
-                radius = radius.toPx(),
-                style = Stroke(
-                    width = borderWidth.toPx(),
-                ),
-            )
+        drawCircle(
+            color = checkBoxBorderColor,
+            radius = radius.toPx(),
+            style = Stroke(
+                width = borderWidth.toPx(),
+            ),
+        )
 
 //          Destination
-            drawCircle(
-                color = checkBoxColor.value,
-                radius = radius.toPx() - borderWidth.toPx() / 2,
-                style = Fill
-            )
+        drawCircle(
+            color = checkBoxColor.value,
+            radius = greenCircleRadius.toPx(),
+            style = Fill
+        )
 
-            val path = Path()
-            path.moveTo(center.x * 2 / 3, center.y)
-            path.lineTo(center.x - center.x / 6, center.y + center.y / 4)
-            path.lineTo(center.x + center.x * 3 / 8, center.y * 6 / 8)
-            drawPath(
-                path,
-                tickPaint.color,
-                style = Stroke(tickWidth)
-            )
-            path.reset()
+        val path = Path()
+        path.moveTo(center.x * 2 / 3, center.y)
+        path.lineTo(center.x - center.x / 6, center.y + center.y / 4)
+        path.lineTo(center.x + center.x * 3 / 8, center.y * 6 / 8)
+        drawPath(
+            path,
+            tickPaint.color,
+            style = Stroke(tickWidth)
+        )
+        path.reset()
 
 //            Source
-            drawCircle(
-                color = Color.Transparent,
-                radius = circleRadius.toPx(),
-                blendMode = BlendMode.Clear,
-                style = Fill
-            )
+        drawCircle(
+            color = Color.Transparent,
+            radius = circleRadius.toPx(),
+            blendMode = BlendMode.Clear,
+            style = Fill
+        )
     }
 
 }
@@ -149,7 +153,7 @@ fun RoundCheckBox(
 object RoundCheckBoxDefaults{
     @Composable
     fun colors(
-        selectedColor: Color = Color(36, 199, 31),
+        selectedColor: Color = Color(0, 230, 118),
         disabledSelectedColor: Color = Color(220, 219, 220),
         disabledUnselectedColor: Color = Color.Transparent,
         tickColor: Color = Color.White,
@@ -212,7 +216,7 @@ class RoundCheckBoxColors internal constructor(
 
 }
 
-private val boxStrokeWidth = 2.dp
+private val boxStrokeWidth = 1.dp
 private const val TICK_STROKE_WIDTH = 5f
 private val maxRadius = 10.dp
 private val boxPadding = 2.dp
